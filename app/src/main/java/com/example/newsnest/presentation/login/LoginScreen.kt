@@ -18,10 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Preview
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier, loginViewmodel: LoginViewmodel = hiltViewModel()) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -30,6 +31,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        val state = loginViewmodel.uiState
         Text(
             text = "Login Screen",
             style = MaterialTheme.typography.titleMedium,
@@ -38,15 +40,15 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.email,
+            onValueChange = loginViewmodel::onEmailChange,
             label = { Text("Username") }
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.password,
+            onValueChange = loginViewmodel::onPasswordChange,
             label = { Text("Password") }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -61,7 +63,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
-                // TODO: Navigate to Register screen
+
             }
         )
     }
