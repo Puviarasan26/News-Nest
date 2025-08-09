@@ -15,14 +15,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 
-@Preview
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, loginViewmodel: LoginViewmodel = hiltViewModel()) {
+fun LoginScreen(
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    loginViewmodel: LoginViewmodel = hiltViewModel()
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -53,7 +55,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewmodel: LoginViewmodel = 
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {}) {
+        Button(onClick = { }) {
             Text(text = "Login")
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -63,7 +65,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewmodel: LoginViewmodel = 
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
-
+                onNavigate.invoke()
             }
         )
     }
