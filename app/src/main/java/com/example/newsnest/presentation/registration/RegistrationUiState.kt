@@ -10,5 +10,6 @@ data class RegistrationUiState(
     val passwordError: String? = null,
     val confirmPasswordError: String? = null,
     val selectedImageUri: String? = null,
-    val snackbarMessage: String? = null
+    val snackbarMessage: String? = null,
+    val isLoading: Boolean = false
 )

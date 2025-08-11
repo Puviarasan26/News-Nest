@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -25,15 +26,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -43,11 +47,14 @@ fun RegistrationScreen(onNavigate: () -> Unit, viewModel: RegistrationViewModel 
         viewModel.onEvent(RegistrationEvent.ImageSelected(uri.toString()))
     }
     val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(state.snackbarMessage) {
-        state.snackbarMessage?.let {
-            snackbarHostState.showSnackbar(it)
-            viewModel.clearSnackbarMessage()
-        }
+    LaunchedEffect(snackbarHostState) {
+        snapshotFlow { state.snackbarMessage }
+            .collectLatest { message ->
+                message?.let {
+                    snackbarHostState.showSnackbar(it)
+                    viewModel.clearSnackbarMessage()
+                }
+            }
     }
 
     Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) {
@@ -58,6 +65,7 @@ fun RegistrationScreen(onNavigate: () -> Unit, viewModel: RegistrationViewModel 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "Registration Screen", fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
@@ -158,6 +166,13 @@ fun RegistrationScreen(onNavigate: () -> Unit, viewModel: RegistrationViewModel 
                 Text(text = "Register")
             }
             Spacer(modifier = Modifier.height(16.dp))
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 2.dp
+                )
+            }
             Text(
                 text = "Already have an account? Login",
                 color = MaterialTheme.colorScheme.primary,

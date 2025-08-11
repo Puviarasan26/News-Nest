@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id ("com.google.dagger.hilt.android")
-    id ("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
     alias(libs.plugins.google.gms.google.services)
 }
 
@@ -45,16 +45,22 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation (libs.hilt.android)
+    implementation(libs.hilt.android)
     implementation(libs.firebase.auth)
-    kapt (libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     //noinspection UseTomlInstead
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    //noinspection UseTomlInstead
     implementation("androidx.navigation:navigation-compose:2.9.3")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    //noinspection UseTomlInstead
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
+    //noinspection UseTomlInstead
+    implementation("io.coil-kt:coil-compose:2.7.0")
+    //noinspection UseTomlInstead
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
 
 
     implementation(libs.androidx.ui)
