@@ -73,6 +73,23 @@ class AuthRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun loginUser(
+        email: String,
+        password: String
+    ): Result<Unit> {
+        try {
+          firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+              Log.d(TAG, "loginUser: ${it.user?.email}")
+          }.addOnFailureListener {
+              Log.d(TAG, "loginUser: ${it.message}")
+          }
+        }
+        catch (e: Exception) {
+            return Result.Error(e.message)
+        }
+        return Result.Success(Unit)
+    }
+
     companion object {
         const val TAG: String = "AuthRepositoryImpl"
     }
